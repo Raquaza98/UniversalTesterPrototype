@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
- * @author Windows
+ * @author Gasperini "Raquaza98" Luca
  * 
  */
 
@@ -14,11 +9,7 @@ import java.io.*;
 import java.util.StringTokenizer;
 import javax.swing.JFileChooser;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import javax.swing.ComboBoxModel;
-import javax.swing.JFrame;
 
 public class MainFrame extends javax.swing.JFrame{
     final JFileChooser fc = new JFileChooser();

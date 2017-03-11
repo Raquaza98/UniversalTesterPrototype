@@ -13,15 +13,9 @@ import org.hyperic.sigar.SigarException;
 import org.hyperic.sigar.SigarPermissionDeniedException;
 import org.hyperic.sigar.cmd.SigarCommandBase;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author Windows
+ * @author Gasperini "Raquaza98" Luca
  */
 public class SystemListener extends SigarCommandBase implements Runnable {
     private OperatingSystemMXBean o;
