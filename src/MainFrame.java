@@ -201,7 +201,7 @@ public class MainFrame extends javax.swing.JFrame{
             startTime = currentTime();
         
         
-            SystemListener central = new SystemListener("TestLog "+Pname.getText()+" N "+nInst+".txt", Ppath.getText(), (int)jSpinner1.getValue());
+            SystemListener central = new SystemListener("TestLog "+Pname.getText()+" N "+nInst+".txt", Ppath.getText(), (int)jSpinner1.getValue(), Pname.getText());
              
                 t.start();
                 Thread tt= new Thread(central);
