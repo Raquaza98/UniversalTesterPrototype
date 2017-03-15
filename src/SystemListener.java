@@ -20,7 +20,7 @@ import org.hyperic.sigar.cmd.SigarCommandBase;
 public class SystemListener extends SigarCommandBase implements Runnable {
     private OperatingSystemMXBean o;
     private FileWriter f;
-    private static String pPath;
+    private static String pPath, pName;
     private static boolean alive=true;
     private static int time;
     
@@ -28,8 +28,9 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         
     }
     
-    SystemListener(String f, String pPath, int time){
+    SystemListener(String f, String pPath, int time, String pName){
         this.pPath=pPath;
+        this.pName=pName;
         this.time = time;
         try {
             this.f= new FileWriter(f, true);
@@ -115,7 +116,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         //System.out.println(Arrays.toString(this.sigar.getProcList()));
         while(Pids.length>i && !found){
             //System.out.println(this.sigar.getProcState(Pids[i]));
-            if(this.sigar.getProcState(Pids[i]).getName().equals("WinRAR")){
+            if(this.sigar.getProcState(Pids[i]).getName().equals(pName)){
                 fPid = Pids[i];
                 found = true;
             }            
