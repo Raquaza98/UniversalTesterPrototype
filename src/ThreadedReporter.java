@@ -22,7 +22,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
      */
     public ThreadedReporter() {
         initComponents();
-        jLabel5.setText("stop it");
     }
     
     public ThreadedReporter(String fileName) {
@@ -85,7 +84,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
@@ -124,8 +122,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
         jLabel2.setText("Memoria Free");
 
-        jLabel5.setText("kk");
-
         jScrollPane3.setAlignmentX(0.3F);
         jScrollPane3.setMaximumSize(new java.awt.Dimension(200, 150));
 
@@ -149,7 +145,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
@@ -169,9 +164,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
                             .addComponent(jLabel2)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -192,7 +185,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
     
     private void GetReport(){
-        jLabel5.setText("working");
         jTextArea1.setText("");
         
         FileReader f = null;
@@ -361,7 +353,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;

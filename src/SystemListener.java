@@ -44,14 +44,14 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         }
     }
 
-    SystemListener(OperatingSystemMXBean o, String f) {
+    /*SystemListener(OperatingSystemMXBean o, String f) {
         this.o=o;
         try {
             this.f= new FileWriter(f, true);
         } catch (IOException ex) {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
 
     
     public void run() {
@@ -61,7 +61,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void oldrun(){
+    /*private void oldrun(){
         while(true){
         for (Method method : o.getClass().getDeclaredMethods()) {
             method.setAccessible(true);   
@@ -89,7 +89,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
             }
-    }}
+    }}*/
     
     public void output(String[] args) throws SigarException, SigarPermissionDeniedException {
         int timeTot=0;
