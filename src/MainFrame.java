@@ -22,7 +22,7 @@ public class MainFrame extends javax.swing.JFrame{
      */
     public MainFrame() {
         initComponents();
-        jProgressBar1.setVisible(false);
+        jProgressBar1.setVisible(false);        //Nascondo la barra di progresso di analisi exe
     }
 
     /**
@@ -179,9 +179,9 @@ public class MainFrame extends javax.swing.JFrame{
             Ppath.setText(file.getAbsolutePath());
             Pname.setText(file.getName());
             
-            log.append("Opening: " + file.getName() + "." + newline);
+            log.append("File selezionato: " + file.getName() + "." + newline);
         } else {
-            log.append("Open command cancelled by user." + newline);
+            log.append("" + newline);
         }}
     }//GEN-LAST:event_openButtonActionPerformed
 
@@ -190,18 +190,20 @@ public class MainFrame extends javax.swing.JFrame{
             log.append("Valori non completi e/o non validi");
         }else{
             
-            jProgressBar1.setMaximum((int)jSpinner1.getValue());
+            jProgressBar1.setMaximum((int)jSpinner1.getValue());        //Abilito la barra di progresso
             jProgressBar1.setValue(0);
             jProgressBar1.setVisible(true);
             
-            Thread t = new Thread(new SimpleTimer(jProgressBar1.getModel(), (int)jSpinner1.getValue()));
+            Thread t = new Thread(new SimpleTimer(jProgressBar1.getModel(), (int)jSpinner1.getValue()));    //Avvio il thread che controlla il timer e la barra di progresso (da cambiare) 
             
         
-            nInst = SearchProgramTestLog(Pname.getText());
-            startTime = currentTime();
+            nInst = SearchProgramTestLog(Pname.getText());  //Ottengo informazioni sui test precedentemente eseguiti sul .exe, in questo caso il numero del test
+            startTime = currentTime();      //Ottengo il tempo iniziale del test
         
-        
-            SystemListener central = new SystemListener("TestLog "+Pname.getText()+" N "+nInst+".txt", Ppath.getText(), (int)jSpinner1.getValue(), Pname.getText());
+            //Creo un thread per il tester con le informazioni necessarie (nome file ,percorso file, valore tempo massimo, nome file)
+            String _listenerFileName = "TestLog "+Pname.getText()+" N "+nInst+".txt";
+            
+            SystemListener central = new SystemListener(_listenerFileName, Ppath.getText(), (int)jSpinner1.getValue(), Pname.getText());
              
                 t.start();
                 Thread tt= new Thread(central);
@@ -216,12 +218,12 @@ public class MainFrame extends javax.swing.JFrame{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ThreadedReporter t = new ThreadedReporter("TestLog "+(String) jComboBox1.getSelectedItem()+".txt");
-        Thread tt = new Thread(t);
+        Thread tt = new Thread(t);  //Seleziono il report da visualizzare 
         tt.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseEntered
-        fileCheck();
+        fileCheck();            //All'entrata nel combobox che visualizza i file disponibili al report, cerca nel file con i dati dei test i nomi dei file
         FileReader f = null;
         BufferedReader fIN = null;
         String s;
@@ -305,7 +307,7 @@ public class MainFrame extends javax.swing.JFrame{
         });
     }
     
-    private static void SaveTestLog(String line){
+    private static void SaveTestLog(String line){       //Salva il test nel file principale
         FileWriter f;
         try {
             f= new FileWriter("UTProgramLogs.txt", true);
@@ -317,7 +319,7 @@ public class MainFrame extends javax.swing.JFrame{
         }               
     }
     
-    private static void fileCheck(){
+    private static void fileCheck(){    //Controlla l'esistenza del file principale
         FileWriter f;
         try {
             f= new FileWriter("UTProgramLogs.txt", true);
@@ -338,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame{
         
     }
     
-    private static int SearchProgramTestLog(String programName){
+    private static int SearchProgramTestLog(String programName){    //Ricerca il file da analizzare nel file principale
         fileCheck();
         FileReader f = null;
         BufferedReader fIN = null;
@@ -389,13 +391,13 @@ public class MainFrame extends javax.swing.JFrame{
     }   
    
 
-    private static String currentTime() {
+    private static String currentTime() {   //Ottieni il tempo attuale
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         return sdf.format(cal.getTime());
     }
     
-    public static void end(){
+    public static void end(){   //Finisce il test
         String fileName = Pname.getText()+ "|" + (nInst) + "|" + startTime + "|" + currentTime()+"\r\n";
         SaveTestLog(fileName);
         log.append("Esecuzione terminata");
