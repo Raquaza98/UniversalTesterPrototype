@@ -82,8 +82,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         canvas1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
@@ -109,7 +107,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         canvas1.setLayout(canvas1Layout);
         canvas1Layout.setHorizontalGroup(
             canvas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGap(0, 514, Short.MAX_VALUE)
         );
         canvas1Layout.setVerticalGroup(
             canvas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,13 +139,10 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 77, Short.MAX_VALUE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -156,13 +151,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
@@ -202,11 +193,12 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         g.drawLine(1, canvas1.getBounds().height, 1, canvas1.getBounds().y);                                    //Disegno assi x e y
         g.drawLine(1, canvas1.getBounds().height-1, canvas1.getBounds().width-1, canvas1.getBounds().height-1);
         
-        g.drawString("Memoria usata scala 1:"+calculatePropInv(1,canvas1.getBounds().height, rect[1].intValue())+" B", 1, 10);      //Scrivo la scala usata per gli assi
+        g.drawString("Memoria usata scala 1:1024 MB", 1, 10);      //Scrivo la scala usata per gli assi
         g.drawString("Secondi test scala 1:"+calculateProp(1,canvas1.getBounds().width, rect[0].intValue())+" s", canvas1.getBounds().width-150, canvas1.getBounds().height-10);
         
-        for(int j=1;j<canvas1.getBounds().height;j+=10){            //Disegno dei marcatori ogni 10 punti di ogni asse
-            g.drawLine(1, canvas1.getBounds().height-j, 3, canvas1.getBounds().height-j);
+        for(int j=1;j<rect[1].intValue();j+=1024){            //Disegno dei marcatori ogni 10 punti di ogni asse
+            int _tempPropYBound = calculatePropInv(j, canvas1.getBounds().height, rect[1].intValue());
+            g.drawLine(1, _tempPropYBound, 3, _tempPropYBound);
             
         }
         
@@ -262,10 +254,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             int _yMemProp = calculatePropInv(_yMem.intValue(),canvas1.getBounds().height, rect[1].intValue());
             
             
-
-            //jTextArea1.append("valore x0 "+_xValue+" valore x1 "+ __xValue +" valore y0 "+ f1.toString()+" valore y1 " +f2.toString()+"\r\n");
-            //jTextArea1.append("valore prop x0 "+_xValueProp+" valore prop x1 "+__xValueProp+" valore prop y0 "+_yValueProp+" valore prop y1 "+_yMemProp+""+"\r\n");
-            jTextArea1.append(_yMem.toString()+"\r\n");
 
             //jTextArea1.append("valore x0 "+_xValue+" valore x1 "+ __xValue +" valore y0 "+ f1.toString()+" valore y1 " +f2.toString()+"\r\n");      //Scrivo i valori all'interno dell'area di testo (da modificare)
             //jTextArea1.append("valore prop x0 "+_xValueProp+" valore prop x1 "+__xValueProp+" valore prop y0 "+_yValueProp+" valore prop y1 "+_yMemProp+""+"\r\n");
@@ -355,12 +343,8 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     Long[] r =new Long[2];
     r[0]= Long.parseLong(nLines.toString());
     r[1]= Long.parseLong(maxValue.toString());
-    jLabel3.setText(nLines+"");
-    jLabel4.setText(maxValue+"");
-    r[1]= Long.parseLong(maxValue.toString())*100;          //Dal listener il valore non è completo
-        
-    jLabel3.setText("Secondi passati : "+nLines+"");
-    jLabel4.setText("Valore massimo Memoria : "+maxValue+"");
+    jLabel1.setText("Secondi passati : "+nLines+"");
+    jLabel2.setText("Valore massimo Memoria : "+maxValue+"");
         
     return r;
     }   
@@ -376,8 +360,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     private javax.swing.JPanel canvas1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
