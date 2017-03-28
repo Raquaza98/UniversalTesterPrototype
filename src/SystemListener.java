@@ -20,7 +20,7 @@ import org.hyperic.sigar.cmd.SigarCommandBase;
  * @author Gasperini "Raquaza98" Luca
  */
 public class SystemListener extends SigarCommandBase implements Runnable {
-    private OperatingSystemMXBean o;
+    //private OperatingSystemMXBean o;      Part of a older prototype
     private FileWriter f;
     private static String pPath, pName;
     private static boolean alive=true;
@@ -97,9 +97,9 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         int timeTot=0;
         boolean exit=true;
         Process p;
-        Runtime rt = Runtime.getRuntime();
+        Runtime rt = Runtime.getRuntime();  
         try {
-            p = rt.exec(pPath);
+            p = rt.exec(pPath);     //Fa partire il file
             /*OutputStream outC = p.getOutputStream ();
             BufferedWriter printOut = new BufferedWriter(new OutputStreamWriter(outC));
             printOut.write("cd C:");
@@ -111,12 +111,12 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         } catch (InterruptedException ex) {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
-        long[] Pids = this.sigar.getProcList();
+        long[] Pids = this.sigar.getProcList();     //Ottiene la lista di processi attivi sul pc
         int i=0;
         long fPid=0;
         boolean found =false;
         //System.out.println(Arrays.toString(this.sigar.getProcList()));
-        while(Pids.length>i && !found){
+        while(Pids.length>i && !found){         //Cerca il processo nel sistema
             //System.out.println(this.sigar.getProcState(Pids[i]));
             if(this.sigar.getProcState(Pids[i]).getName().equals(pName)){
                 fPid = Pids[i];
@@ -126,7 +126,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         }
         //System.out.println(fPid);
         
-        while(exit){
+        while(exit){            //Ogni secondo ottiene informazioni sul sistema e le inserisce nel sistema
             Mem m = this.sigar.getMem();
             Cpu c = this.sigar.getCpu();
             try {
@@ -142,7 +142,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
                 Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
             }
             timeTot++;
-            if(timeTot>time)  exit=false;  
+            if(timeTot>time)  exit=false;  //Raggiunto il tempo massimo esce
         }
         try {
             f.close();
@@ -150,7 +150,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
         alive=false;
-        MainFrame.end();
+        MainFrame.end();        //Avvisa il Frame principale la fine del test
     }
     
     public static String MBconversion(long bytes) {
@@ -159,7 +159,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
 }
     
 
-    public static boolean working(){
+    public static boolean working(){    //Variabile per il timer
         return alive;
     }
 
