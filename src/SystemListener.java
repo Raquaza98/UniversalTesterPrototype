@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.hyperic.sigar.Cpu;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.SigarException;
@@ -126,11 +128,13 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         
         while(exit){
             Mem m = this.sigar.getMem();
+            Cpu c = this.sigar.getCpu();
             try {
-                Long Ram = (Long) m.getRam(), Free = (Long) m.getFree(), Used = (Long) m.getUsed();
+                Long Ram = (Long) m.getRam(), Free = (Long) m.getFree(), Used = (Long) m.getUsed(), CpuT = c.getTotal();
+                           
                 
                 
-                f.write(Ram+"|"+Free.toString().substring(0, 7)+"|"+Used.toString().substring(0, 7)+"|"+fPid+"|"+this.sigar.getProcState(fPid).toString());
+                f.write(Ram+"|"+MBconversion(Free)+"|"+MBconversion(Used)+"|"+fPid+"|"+this.sigar.getProcState(fPid).toString()+"|"+CpuT);
                 f.write("\r\n");
                 f.flush();
                 TimeUnit.SECONDS.sleep(1);
@@ -148,6 +152,11 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         alive=false;
         MainFrame.end();
     }
+    
+    public static String MBconversion(long bytes) {
+        String _tempString = bytes / Math.pow(1024, 2)+"";        
+        return _tempString.substring(0, _tempString.indexOf("."));
+}
     
 
     public static boolean working(){

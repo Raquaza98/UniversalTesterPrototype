@@ -222,7 +222,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         
         
     
-        Long _yValue, _yMem=Long.parseLong("0");
+        Long _yValue, _yMem=Long.parseLong("0"), _yMemStart=Long.parseLong("0");
         
         int _xValue=0,__xValue=1;
     try{
@@ -239,9 +239,20 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         while(s != null){
             st=new StringTokenizer(s, "|");
             st.nextToken();
+            
+                st.nextToken();
+            
+            
             _yValue =_yMem;
             _yMem = Long.parseLong(st.nextToken());
-            Float f1 = Float.parseFloat(_yValue.toString()), f2 =Float.parseFloat(_yMem.toString());
+            
+            if(first){
+                _yMemStart = _yMem;
+                _yMem = Long.parseLong("0");
+            }else{
+                _yMem = _yMem-_yMemStart;
+            }
+            
             
             int _xValueProp = calculateProp(_xValue,canvas1.getBounds().width, rect[0].intValue());
             int __xValueProp = calculateProp(__xValue,canvas1.getBounds().width, rect[0].intValue());
@@ -249,8 +260,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             int _yMemProp = calculatePropInv(_yMem.intValue(),canvas1.getBounds().height, rect[1].intValue());
             
             
-            jTextArea1.append("valore x0 "+_xValue+" valore x1 "+ __xValue +" valore y0 "+ f1.toString()+" valore y1 " +f2.toString()+"\r\n");
-            jTextArea1.append("valore prop x0 "+_xValueProp+" valore prop x1 "+__xValueProp+" valore prop y0 "+_yValueProp+" valore prop y1 "+_yMemProp+""+"\r\n");
+            //jTextArea1.append("valore x0 "+_xValue+" valore x1 "+ __xValue +" valore y0 "+ f1.toString()+" valore y1 " +f2.toString()+"\r\n");
+            //jTextArea1.append("valore prop x0 "+_xValueProp+" valore prop x1 "+__xValueProp+" valore prop y0 "+_yValueProp+" valore prop y1 "+_yMemProp+""+"\r\n");
+            jTextArea1.append(_yMem.toString()+"\r\n");
             
             if(first){
                 _yValueProp= canvas1.getBounds().height-1;
@@ -334,7 +346,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     }
     Long[] r =new Long[2];
     r[0]= Long.parseLong(nLines.toString());
-    r[1]= Long.parseLong(maxValue.toString())*100;
+    r[1]= Long.parseLong(maxValue.toString());
     jLabel3.setText(nLines+"");
     jLabel4.setText(maxValue+"");
     return r;
