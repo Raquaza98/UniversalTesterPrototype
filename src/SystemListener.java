@@ -128,13 +128,14 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         
         while(exit){            //Ogni secondo ottiene informazioni sul sistema e le inserisce nel sistema
             Mem m = this.sigar.getMem();
-            Cpu c = this.sigar.getCpu();
+            CpuPerc c = this.sigar.getCpuPerc();
             try {
-                Long Ram = (Long) m.getRam(), Free = (Long) m.getFree(), Used = (Long) m.getUsed(), CpuT = c.getTotal();
+                Long Ram = (Long) m.getRam(), Free = (Long) m.getFree(), Used = (Long) m.getUsed();
+                Double CpuT = c.getCombined(), CpuI = c.getIdle();
                            
                 
                 
-                f.write(Ram+"|"+MBconversion(Free)+"|"+MBconversion(Used)+"|"+fPid+"|"+this.sigar.getProcState(fPid).toString()+"|"+CpuT);
+                f.write(Ram+"|"+MBconversion(Free)+"|"+MBconversion(Used)+"|"+fPid+"|"+this.sigar.getProcState(fPid).toString()+"|"+CpuConversion(CpuT)+"|"+CpuConversion(CpuI));
                 f.write("\r\n");
                 f.flush();
                 TimeUnit.SECONDS.sleep(1);
@@ -153,10 +154,16 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         MainFrame.end();        //Avvisa il Frame principale la fine del test
     }
     
-    public static String MBconversion(long bytes) {
+    private static String MBconversion(long bytes) {
         String _tempString = bytes / Math.pow(1024, 2)+"";        
         return _tempString.substring(0, _tempString.indexOf("."));
 }
+    
+    private static String CpuConversion(Double data){
+        data = data*100;
+        String _tempString = data.toString();
+        return _tempString.substring(0, _tempString.indexOf("."));
+    }
     
 
     public static boolean working(){    //Variabile per il timer
