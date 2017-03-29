@@ -99,7 +99,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         Process p;
         Runtime rt = Runtime.getRuntime();  
         try {
-            p = rt.exec(pPath);     //Fa partire il file
+            p = rt.exec(pPath);     //Starting the program to test
             /*OutputStream outC = p.getOutputStream ();
             BufferedWriter printOut = new BufferedWriter(new OutputStreamWriter(outC));
             printOut.write("cd C:");
@@ -111,12 +111,12 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         } catch (InterruptedException ex) {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
-        long[] Pids = this.sigar.getProcList();     //Ottiene la lista di processi attivi sul pc
+        long[] Pids = this.sigar.getProcList();     //I get the process list and search the tested program
         int i=0;
         long fPid=0;
         boolean found =false;
         //System.out.println(Arrays.toString(this.sigar.getProcList()));
-        while(Pids.length>i && !found){         //Cerca il processo nel sistema
+        while(Pids.length>i && !found){      
             //System.out.println(this.sigar.getProcState(Pids[i]));
             if(this.sigar.getProcState(Pids[i]).getName().equals(pName)){
                 fPid = Pids[i];
@@ -126,7 +126,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         }
         //System.out.println(fPid);
         
-        while(exit){            //Ogni secondo ottiene informazioni sul sistema e le inserisce nel sistema
+        while(exit){            //Every second infos of system gets written on a file
             Mem m = this.sigar.getMem();
             CpuPerc c = this.sigar.getCpuPerc();
             try {
@@ -143,7 +143,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
                 Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
             }
             timeTot++;
-            if(timeTot>time)  exit=false;  //Raggiunto il tempo massimo esce
+            if(timeTot>time)  exit=false;  //When time runs out the program exits and saves the file
         }
         try {
             f.close();
@@ -151,10 +151,10 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
         alive=false;
-        MainFrame.end();        //Avvisa il Frame principale la fine del test
+        MainFrame.end();        //It will also signal the Main frame the end of the test
     }
     
-    private static String MBconversion(long bytes) {
+    private static String MBconversion(long bytes) {        //Functions for conversion of long values into a readable format
         String _tempString = bytes / Math.pow(1024, 2)+"";        
         return _tempString.substring(0, _tempString.indexOf("."));
 }
@@ -166,7 +166,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
     }
     
 
-    public static boolean working(){    //Variabile per il timer
+    public static boolean working(){    //Function for the timer interaction
         return alive;
     }
 
