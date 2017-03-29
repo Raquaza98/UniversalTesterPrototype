@@ -183,14 +183,14 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         String s;
         StringTokenizer st;
         
-        Long[] rect;            //Ottengo i limiti del file (secondi, memoria usata)
+        Long[] rect;            //Getting limit values of the test (time in s and number of lines)
         rect = GetBounds();
         
     
-        Graphics g = canvas1.getGraphics(); //Ottengo il controllo del canvas
+        Graphics g = canvas1.getGraphics(); //I get canvas graphic control
         
         g.setColor(Color.black);
-        g.drawLine(1, canvas1.getBounds().height, 1, canvas1.getBounds().y);                                    //Disegno assi x e y
+        g.drawLine(1, canvas1.getBounds().height, 1, canvas1.getBounds().y);                                    //Drawing x and y axis
         g.drawLine(1, canvas1.getBounds().height-1, canvas1.getBounds().width-1, canvas1.getBounds().height-1);
         
         g.drawString("Memoria usata scala 1:1024 MB", 1, 10);      //Scrivo la scala usata per gli assi
@@ -226,7 +226,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         
     boolean first =true;
     
-        //Disegno il grafico leggendo il file di testo
+        //Start drawing the graph by reading the file
         
     try{
         s=fIN.readLine();
@@ -248,18 +248,18 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             }
             
             
-            int _xValueProp = calculateProp(_xValue,canvas1.getBounds().width, rect[0].intValue());     //Prendo i valori x0,x1, y0 e y1 usando le funzioni per calcolare il valore corretto rispetto al canvas
+            int _xValueProp = calculateProp(_xValue,canvas1.getBounds().width, rect[0].intValue());     //I get the test's values and transform them to fit them inside the graph
             int __xValueProp = calculateProp(__xValue,canvas1.getBounds().width, rect[0].intValue());
             int _yValueProp = calculatePropInv(_yValue.intValue(),canvas1.getBounds().height, rect[1].intValue());
             int _yMemProp = calculatePropInv(_yMem.intValue(),canvas1.getBounds().height, rect[1].intValue());
             
             
 
-            //jTextArea1.append("valore x0 "+_xValue+" valore x1 "+ __xValue +" valore y0 "+ f1.toString()+" valore y1 " +f2.toString()+"\r\n");      //Scrivo i valori all'interno dell'area di testo (da modificare)
+            //jTextArea1.append("valore x0 "+_xValue+" valore x1 "+ __xValue +" valore y0 "+ f1.toString()+" valore y1 " +f2.toString()+"\r\n");      
             //jTextArea1.append("valore prop x0 "+_xValueProp+" valore prop x1 "+__xValueProp+" valore prop y0 "+_yValueProp+" valore prop y1 "+_yMemProp+""+"\r\n");
 
             
-            if(first){          //Controllo per il primo valore nel canvas
+            if(first){          //First value starts from the 0 value of the graph
                 _yValueProp= canvas1.getBounds().height-1;
                 first=false;
             }
@@ -297,7 +297,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     
     
     
-    private Long[] GetBounds(){         //Funzione per ottenere i limiti del file con ritorno di coppia di valori
+    private Long[] GetBounds(){         //Function to get the limit values 
         FileReader f = null;
         BufferedReader fIN = null;
         String s;
@@ -349,7 +349,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     return r;
     }   
     
-    private int calculateProp(int Value, int Width, int MaxVal){        //Funzioni per calcolare i punti nel canvas rispetto ai valori nel testo
+    private int calculateProp(int Value, int Width, int MaxVal){        //Functions to calculate the right value to fit into the graph depending on the given values
         return (Value*Width)/MaxVal;
     }
     private int calculatePropInv(int Value, int Width, int MaxVal){
