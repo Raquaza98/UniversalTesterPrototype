@@ -230,12 +230,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         
     try{
         s=fIN.readLine();
+        s=fIN.readLine();
         while(s != null){
-            st=new StringTokenizer(s, "|");
-            st.nextToken();
-            
-                st.nextToken();
-            
+            st=new StringTokenizer(s, "|");            
             
             _yValue =_yMem;
             _yMem = Long.parseLong(st.nextToken());
@@ -302,7 +299,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         BufferedReader fIN = null;
         String s;
         StringTokenizer st;
-        Integer nLines=0, nowValue, maxValue=0;
+        Integer nLines=-1, nowValue, maxValue=0;
         
     try{
         f=new FileReader(fileName);
