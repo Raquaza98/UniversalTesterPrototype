@@ -125,9 +125,13 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             i++;
         }
         //System.out.println(fPid);
+        try {
+            f.write(this.sigar.getMem().getRam()+"|"+time+"|"+fPid+"|"+this.sigar.getProcState(fPid)+"\r\n");
+            f.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        f.write(this.sigar.getMem().getRam()+"|"+fPid+"|"+this.sigar.getProcState(fPid)+"\r\n");
-        f.flush();
         
         while(exit){            //Every second infos of system gets written on a file
             Mem m = this.sigar.getMem();

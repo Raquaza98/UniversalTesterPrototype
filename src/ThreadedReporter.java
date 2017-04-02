@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
     private String fileName;
     private boolean executed=false;
+    private Graphics graphRAM, graphCPU;
     /**
      * Creates new form ThreadedReporter
      */
@@ -84,6 +86,8 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        canvas2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -107,11 +111,11 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         canvas1.setLayout(canvas1Layout);
         canvas1Layout.setHorizontalGroup(
             canvas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 514, Short.MAX_VALUE)
+            .addGap(0, 832, Short.MAX_VALUE)
         );
         canvas1Layout.setVerticalGroup(
             canvas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 365, Short.MAX_VALUE)
+            .addGap(0, 557, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(canvas1);
@@ -128,21 +132,42 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         jTextArea1.setMaximumSize(new java.awt.Dimension(160, 75));
         jScrollPane3.setViewportView(jTextArea1);
 
+        jScrollPane2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentMoved(java.awt.event.ComponentEvent evt) {
+                jScrollPane2ComponentMoved(evt);
+            }
+        });
+
+        javax.swing.GroupLayout canvas2Layout = new javax.swing.GroupLayout(canvas2);
+        canvas2.setLayout(canvas2Layout);
+        canvas2Layout.setHorizontalGroup(
+            canvas2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 449, Short.MAX_VALUE)
+        );
+        canvas2Layout.setVerticalGroup(
+            canvas2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 467, Short.MAX_VALUE)
+        );
+
+        jScrollPane2.setViewportView(canvas2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 77, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                        .addGap(552, 552, 552)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -152,12 +177,15 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(jLabel2))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())))
         );
 
         pack();
@@ -174,9 +202,75 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         executed=false;
     }//GEN-LAST:event_formComponentResized
 
+    private void jScrollPane2ComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPane2ComponentMoved
+        Graphics _g = canvas2.getGraphics();
+        _g = graphCPU;
+    }//GEN-LAST:event_jScrollPane2ComponentMoved
+
     
     private void GetReport(){
-        jTextArea1.setText("");
+           drawGraph(canvas1, true);
+           drawGraph(canvas2, false);
+    
+    
+    } 
+    
+    
+    
+    
+    private Long[] GetBounds(){         //Function to get the limit values 
+        FileReader f = null;
+        BufferedReader fIN = null;
+        String s;
+        StringTokenizer st;
+        
+    try{
+        f=new FileReader(fileName);
+        fIN= new BufferedReader(f);
+    }catch(IOException e){
+        System.out.println("Errore nell'apertura del file");
+        System.exit(1);
+    }
+        
+    
+    Long[] r =new Long[2];
+    
+    try{
+        s=fIN.readLine();
+        st=new StringTokenizer(s, "|");
+        r[1]= Long.parseLong(st.nextToken());
+        r[0]= Long.parseLong(st.nextToken());
+        
+        
+    }
+    catch(IOException e){
+         System.out.println("Errore nella lettura del file");
+        System.exit(1);
+    }
+    try {
+        f.close();
+    }catch (IOException e){
+         System.out.println("Errore nella chiusura del file");
+        System.exit(1);
+    }
+    
+    
+    jLabel1.setText("Secondi passati : "+r[0]+"");
+    jLabel2.setText("Valore massimo Memoria : "+r[1]+"");
+        
+    return r;
+    }   
+    
+    private int calculateProp(int Value, int Width, int MaxVal){        //Functions to calculate the right value to fit into the graph depending on the given values
+        return (Value*Width)/MaxVal;
+    }
+    private int calculatePropInv(int Value, int Width, int MaxVal){
+        return Width - (Value*Width)/MaxVal;
+    }
+    
+    
+    
+    private void drawGraph(javax.swing.JPanel graphCanvas,  boolean type ){
         
         FileReader f = null;
         BufferedReader fIN = null;
@@ -187,28 +281,37 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         rect = GetBounds();
         
     
-        Graphics g = canvas1.getGraphics(); //I get canvas graphic control
+        Graphics g = graphCanvas.getGraphics(); //I get canvas graphic control
+        
+        Rectangle Bounds = graphCanvas.getBounds();
         
         g.setColor(Color.black);
-        g.drawLine(1, canvas1.getBounds().height, 1, canvas1.getBounds().y);                                    //Drawing x and y axis
-        g.drawLine(1, canvas1.getBounds().height-1, canvas1.getBounds().width-1, canvas1.getBounds().height-1);
+        g.drawLine(1, Bounds.height, 1, Bounds.y);                                    //Drawing x and y axis
+        g.drawLine(1, Bounds.height-1, Bounds.width-1, Bounds.height-1);
         
-        g.drawString("Memoria usata scala 1:1024 MB", 1, 10);      //Scrivo la scala usata per gli assi
-        g.drawString("Secondi test scala 1:"+calculateProp(1,canvas1.getBounds().width, rect[0].intValue())+" s", canvas1.getBounds().width-150, canvas1.getBounds().height-10);
+        if(type){ g.drawString("Memoria usata scala 1:1024 MB", 1, 10);}      //Scrivo la scala usata per gli assi
+        else {g.drawString("Percentuale uso CPU scala 1:"+calculateProp(1,Bounds.height,100), 1, 10);}
         
+        g.drawString("Secondi test scala 1:"+calculateProp(1,Bounds.width, rect[0].intValue())+" s", Bounds.width-150, Bounds.height-10);
+        
+        
+        if(type){
         for(int j=1;j<rect[1].intValue();j+=1024){            //Disegno dei marcatori ogni 10 punti di ogni asse
-            int _tempPropYBound = calculatePropInv(j, canvas1.getBounds().height, rect[1].intValue());
+            int _tempPropYBound = calculatePropInv(j, Bounds.height, rect[1].intValue());
             g.drawLine(1, _tempPropYBound, 3, _tempPropYBound);
             
-        }
+        }}else{
         
-        for(int j=1;j<canvas1.getBounds().width;j+=10){
-            g.drawLine(canvas1.getBounds().width-j, canvas1.getBounds().height-2, canvas1.getBounds().width-j, canvas1.getBounds().height-4);
+        for(int j=1;j<100;j+=10){
+            int _tempPropYBound = calculatePropInv(j, Bounds.height, 100);
+            g.drawLine(1, _tempPropYBound, 3, _tempPropYBound);
+            
+        }}
+        
+        for(int j=1;j<Bounds.width;j+=10){
+            g.drawLine(Bounds.width-j, Bounds.height-2, Bounds.width-j, Bounds.height-4);
             
         }
-        
-        //g.setColor(Color.red);
-        //g.drawRect(canvas1.getBounds().x+1, canvas1.getBounds().y+1, rect[0].intValue() ,rect[1].intValue());
         
         g.setColor(Color.green);
         
@@ -232,7 +335,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         s=fIN.readLine();
         s=fIN.readLine();
         while(s != null){
-            st=new StringTokenizer(s, "|");            
+            st=new StringTokenizer(s, "|");    
+                        
+            if(!type) st.nextToken();
             
             _yValue =_yMem;
             _yMem = Long.parseLong(st.nextToken());
@@ -245,19 +350,21 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             }
             
             
-            int _xValueProp = calculateProp(_xValue,canvas1.getBounds().width, rect[0].intValue());     //I get the test's values and transform them to fit them inside the graph
-            int __xValueProp = calculateProp(__xValue,canvas1.getBounds().width, rect[0].intValue());
-            int _yValueProp = calculatePropInv(_yValue.intValue(),canvas1.getBounds().height, rect[1].intValue());
-            int _yMemProp = calculatePropInv(_yMem.intValue(),canvas1.getBounds().height, rect[1].intValue());
+            int _xValueProp = calculateProp(_xValue,Bounds.width, rect[0].intValue());     //I get the test's values and transform them to fit them inside the graph
+            int __xValueProp = calculateProp(__xValue,Bounds.width, rect[0].intValue());
+            int _yValueProp, _yMemProp;
             
+            if(type){
+                _yValueProp = calculatePropInv(_yValue.intValue(),Bounds.height, rect[1].intValue());
+                _yMemProp = calculatePropInv(_yMem.intValue(),Bounds.height, rect[1].intValue());
+            }else{
+                _yValueProp = calculatePropInv(_yValue.intValue(),Bounds.height, 100);
+                _yMemProp = calculatePropInv(_yMem.intValue(),Bounds.height, 100);
+            }
             
-
-            //jTextArea1.append("valore x0 "+_xValue+" valore x1 "+ __xValue +" valore y0 "+ f1.toString()+" valore y1 " +f2.toString()+"\r\n");      
-            //jTextArea1.append("valore prop x0 "+_xValueProp+" valore prop x1 "+__xValueProp+" valore prop y0 "+_yValueProp+" valore prop y1 "+_yMemProp+""+"\r\n");
-
             
             if(first){          //First value starts from the 0 value of the graph
-                _yValueProp= canvas1.getBounds().height-1;
+                _yValueProp= Bounds.height-1;
                 first=false;
             }
             
@@ -279,85 +386,23 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     }catch (IOException e){
          System.out.println("Errore nella chiusura del file");
         System.exit(1);
-    }
-    
-    /*System.out.println(rect[0].intValue()+","+ rect[1].intValue());
-    System.out.println(""+canvas1.getBounds().width+" "+canvas1.getBounds().height);
-    System.out.println(""+jScrollPane1.getBounds().toString());*/
-    
-    
-    
-    
-    
     } 
     
-    
-    
-    
-    private Long[] GetBounds(){         //Function to get the limit values 
-        FileReader f = null;
-        BufferedReader fIN = null;
-        String s;
-        StringTokenizer st;
-        Integer nLines=-1, nowValue, maxValue=0;
-        
-    try{
-        f=new FileReader(fileName);
-        fIN= new BufferedReader(f);
-    }catch(IOException e){
-        System.out.println("Errore nell'apertura del file");
-        System.exit(1);
+    if(type){
+        graphRAM = g.create();
+    }else{
+        graphCPU = g.create();
     }
-        
     
-    
-    
-    try{
-        s=fIN.readLine();
-        while(s != null){
-            st=new StringTokenizer(s, "|");
-            nowValue= Integer.parseInt(st.nextToken());
-            
-            if(maxValue< nowValue){
-                maxValue = nowValue;
-            }
-            
-            nLines++;
-            
-            s=fIN.readLine();
-        }
-    }
-    catch(IOException e){
-         System.out.println("Errore nella lettura del file");
-        System.exit(1);
-    }
-    try {
-        f.close();
-    }catch (IOException e){
-         System.out.println("Errore nella chiusura del file");
-        System.exit(1);
-    }
-    Long[] r =new Long[2];
-    r[0]= Long.parseLong(nLines.toString());
-    r[1]= Long.parseLong(maxValue.toString());
-    jLabel1.setText("Secondi passati : "+nLines+"");
-    jLabel2.setText("Valore massimo Memoria : "+maxValue+"");
-        
-    return r;
-    }   
-    
-    private int calculateProp(int Value, int Width, int MaxVal){        //Functions to calculate the right value to fit into the graph depending on the given values
-        return (Value*Width)/MaxVal;
-    }
-    private int calculatePropInv(int Value, int Width, int MaxVal){
-        return Width - (Value*Width)/MaxVal;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel canvas1;
+    private javax.swing.JPanel canvas2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
