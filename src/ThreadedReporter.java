@@ -19,6 +19,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     private String fileName;
     private boolean executed=false;
     private Graphics graphRAM, graphCPU;
+    
+    private Long [] CPUvals = new Long[4], RAMvals = new Long[4];
+    private int CPUnAvg=0, RAMnAvg=0;
     /**
      * Creates new form ThreadedReporter
      */
@@ -328,6 +331,14 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     }
         
     boolean first =true;
+        
+        if(type){
+            RAMvals[1]=0;
+            RAMvals[2]=Long.MAXVALUE;
+        }else{
+            CPUvals[1]=0;
+            CPUvals[2]=Long.MAXVALUE;
+        }
     
         //Start drawing the graph by reading the file
         
@@ -341,6 +352,22 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             
             _yValue =_yMem;
             _yMem = Long.parseLong(st.nextToken());
+            
+            if(type){
+                if(_yMem>RAMvals[1]){
+                    RAMvals[1]=_yMem;
+                }else if(_yMem<RAMvals[2]){
+                    RAMvals[2]=_yMem;
+                }
+                RAMvals[3]+=_yMem;
+            }else{
+                if(_yMem>CPUvals[1]){
+                    CPUvals[1]=_yMem;
+                }else if(_yMem<CPUvals[2]){
+                    CPUvals[2]=_yMem;
+                }
+                CPUvals[3]+=_yMem;
+            }
             
             if(first){
                 _yMemStart = _yMem;
@@ -389,12 +416,53 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     } 
     
     if(type){
+        RAMvals[0]=RAMvals[4]/rect[0];
+        RAMnAvg = getNUnderAvg(RAMvals[0], type);
         graphRAM = g.create();
     }else{
+        CPUvals[0]=CPUvals[4]/rect[0];
+        CPUnAvg = getNUnderAvg(CPUvals[0], type);
         graphCPU = g.create();
     }
     
     }
+    
+    private long getNUnderAvg(long avg, boolean type){
+        FileReader f = null;
+        BufferedReader fIN = null;
+        String s;
+        StringTokenizer st;
+        long _n=0;
+        
+        try{
+        f=new FileReader(fileName);
+        fIN= new BufferedReader(f);
+    }catch(IOException e){
+        System.out.println("Errore nell'apertura del file");
+    }
+       try{
+        s=fIN.readLine();
+        s=fIN.readLine();
+        while(s != null){
+            st=new StringTokenizer(s, "|");    
+            if(!type)   st.nextToken();
+            
+            if(st.nextToken()<=avg) _n++;
+                
+        }catch(IOException e){
+         System.out.println("Errore nella lettura del file");
+        System.exit(1);
+    }
+    try {
+        f.close();
+    }catch (IOException e){
+         System.out.println("Errore nella chiusura del file");
+        System.exit(1);
+    } 
+            
+        return _n;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel canvas1;
