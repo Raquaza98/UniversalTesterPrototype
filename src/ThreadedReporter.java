@@ -16,12 +16,12 @@ import java.util.StringTokenizer;
 
 public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
-    private String fileName;
-    private boolean executed=false;
+    private String fileName, results;
+    private boolean executed=false, CPUGraphView=true, RAMGraphView=true;
     private Graphics graphRAM, graphCPU;
     
-    private Long [] CPUvals = new Long[4], RAMvals = new Long[4];
-    private int CPUnAvg=0, RAMnAvg=0;
+    private Double [] CPUvals = new Double[4], RAMvals = new Double[4];
+    private long CPUnAvg=0, RAMnAvg=0, nLines=0;
     /**
      * Creates new form ThreadedReporter
      */
@@ -38,6 +38,10 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     public ThreadedReporter(String fileName, int i) {
         this.fileName=fileName;   
         initComponents();
+        CPUvals[0]=Double.parseDouble("0");
+        CPUvals[3]=Double.parseDouble("0");
+        RAMvals[0]=Double.parseDouble("0");
+        RAMvals[3]=Double.parseDouble("0");
     }
 
     public void run(){
@@ -85,12 +89,14 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
         jScrollPane1 = new javax.swing.JScrollPane();
         canvas1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         canvas2 = new javax.swing.JPanel();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -123,10 +129,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
         jScrollPane1.setViewportView(canvas1);
 
-        jLabel1.setText("Numero Linee");
-
-        jLabel2.setText("Memoria Free");
-
         jScrollPane3.setAlignmentX(0.3F);
         jScrollPane3.setMaximumSize(new java.awt.Dimension(200, 150));
 
@@ -145,7 +147,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         canvas2.setLayout(canvas2Layout);
         canvas2Layout.setHorizontalGroup(
             canvas2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 449, Short.MAX_VALUE)
+            .addGap(0, 716, Short.MAX_VALUE)
         );
         canvas2Layout.setVerticalGroup(
             canvas2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,6 +156,34 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
         jScrollPane2.setViewportView(canvas2);
 
+        jToggleButton1.setText("swapGraph");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton2.setText("swapGraph");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("reloadGraph");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("reloadGraph");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -161,34 +191,39 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(552, 552, 552)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jToggleButton1)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jToggleButton2)
+                    .addComponent(jButton2))
+                .addGap(5, 5, 5))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToggleButton1)
+                            .addComponent(jToggleButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -198,11 +233,12 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         if(!executed){
             GetReport();
         }
+        ShowResults();
         executed=true;
     }//GEN-LAST:event_formMouseEntered
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-        executed=false;
+        GetReport();
     }//GEN-LAST:event_formComponentResized
 
     private void jScrollPane2ComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPane2ComponentMoved
@@ -210,10 +246,28 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         _g = graphCPU;
     }//GEN-LAST:event_jScrollPane2ComponentMoved
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        RAMGraphView=!RAMGraphView;
+        drawGraph(canvas1, true, RAMGraphView);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        CPUGraphView=!CPUGraphView;
+        drawGraph(canvas2, false, CPUGraphView);
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        drawGraph(canvas1, true, RAMGraphView);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        drawGraph(canvas2, false, CPUGraphView);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     
     private void GetReport(){
-           drawGraph(canvas1, true);
-           drawGraph(canvas2, false);
+           drawGraph(canvas1, true, RAMGraphView);
+           drawGraph(canvas2, false, CPUGraphView);
     
     
     } 
@@ -257,9 +311,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         System.exit(1);
     }
     
-    
-    jLabel1.setText("Secondi passati : "+r[0]+"");
-    jLabel2.setText("Valore massimo Memoria : "+r[1]+"");
+    if(!executed){
+        results =("Secondi passati : "+r[0]+" s - Valore massimo Memoria : "+r[1]+" MB\r\n");
+    }
         
     return r;
     }   
@@ -273,7 +327,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     
     
     
-    private void drawGraph(javax.swing.JPanel graphCanvas,  boolean type ){
+    private void drawGraph(javax.swing.JPanel graphCanvas,  boolean type , boolean view){
         
         FileReader f = null;
         BufferedReader fIN = null;
@@ -287,6 +341,10 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         Graphics g = graphCanvas.getGraphics(); //I get canvas graphic control
         
         Rectangle Bounds = graphCanvas.getBounds();
+        
+        g.clearRect(0, 0, Bounds.width, Bounds.height);
+        
+        
         
         g.setColor(Color.black);
         g.drawLine(1, Bounds.height, 1, Bounds.y);                                    //Drawing x and y axis
@@ -331,14 +389,20 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     }
         
     boolean first =true;
+    
+    
+    if(!executed){
+       
         
         if(type){
-            RAMvals[1]=0;
-            RAMvals[2]=Long.MAXVALUE;
+            RAMvals[1]=Double.parseDouble("0");
+            RAMvals[2]=Double.MAX_VALUE;
         }else{
-            CPUvals[1]=0;
-            CPUvals[2]=Long.MAXVALUE;
+            CPUvals[1]=Double.parseDouble("0");
+            CPUvals[2]=Double.MAX_VALUE;
         }
+    }
+    
     
         //Start drawing the graph by reading the file
         
@@ -353,27 +417,33 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             _yValue =_yMem;
             _yMem = Long.parseLong(st.nextToken());
             
+            
+            if(!executed){
+            
             if(type){
                 if(_yMem>RAMvals[1]){
-                    RAMvals[1]=_yMem;
+                    RAMvals[1]=_yMem.doubleValue();
                 }else if(_yMem<RAMvals[2]){
-                    RAMvals[2]=_yMem;
+                    RAMvals[2]=_yMem.doubleValue();
                 }
-                RAMvals[3]+=_yMem;
+                RAMvals[3]+=_yMem.doubleValue();
             }else{
                 if(_yMem>CPUvals[1]){
-                    CPUvals[1]=_yMem;
+                    CPUvals[1]=_yMem.doubleValue();
                 }else if(_yMem<CPUvals[2]){
-                    CPUvals[2]=_yMem;
+                    CPUvals[2]=_yMem.doubleValue();
                 }
-                CPUvals[3]+=_yMem;
+                CPUvals[3]+=_yMem.doubleValue();
             }
+            nLines++;
+            }
+            
             
             if(first){
                 _yMemStart = _yMem;
                 _yMem = Long.parseLong("0");
             }else{
-                _yMem = _yMem-_yMemStart;
+               if(!view) _yMem = _yMem-_yMemStart;
             }
             
             
@@ -414,20 +484,22 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
          System.out.println("Errore nella chiusura del file");
         System.exit(1);
     } 
+    if(!executed){
     
     if(type){
-        RAMvals[0]=RAMvals[4]/rect[0];
+        RAMvals[0]=RAMvals[3]/nLines;
         RAMnAvg = getNUnderAvg(RAMvals[0], type);
         graphRAM = g.create();
     }else{
-        CPUvals[0]=CPUvals[4]/rect[0];
+        CPUvals[0]=CPUvals[3]/nLines;
         CPUnAvg = getNUnderAvg(CPUvals[0], type);
         graphCPU = g.create();
     }
+    }
     
     }
     
-    private long getNUnderAvg(long avg, boolean type){
+    private long getNUnderAvg(double avg, boolean type){
         FileReader f = null;
         BufferedReader fIN = null;
         String s;
@@ -447,7 +519,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             st=new StringTokenizer(s, "|");    
             if(!type)   st.nextToken();
             
-            if(st.nextToken()<=avg) _n++;
+            if(Long.parseLong(st.nextToken())<=avg) _n++;
+            s=fIN.readLine();
+        }
                 
         }catch(IOException e){
          System.out.println("Errore nella lettura del file");
@@ -463,15 +537,22 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         return _n;
     }
     
+    private void ShowResults(){
+        
+        jTextArea1.setText(results+"Valore medio RAM: "+RAMvals[0]+" MB - Valore massimo : "+RAMvals[1] +" - Valore efficenza (<0.5 non efficiente): "+RAMvals[0]/RAMvals[1]+" - \r\nValore medio CPU: "+CPUvals[0]+"");
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel canvas1;
     private javax.swing.JPanel canvas2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
 }
