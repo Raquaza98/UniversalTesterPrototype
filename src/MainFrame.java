@@ -30,6 +30,7 @@ public class MainFrame extends javax.swing.JFrame{
     public MainFrame() {
         initComponents();
         jProgressBar1.setVisible(false);        //Hide the progress bar to remove clutter on the frame
+        check&LoadConfig();
     }
 
     /**
@@ -272,8 +273,7 @@ public class MainFrame extends javax.swing.JFrame{
         f=new FileReader("UTProgramLogs.txt");
         fIN= new BufferedReader(f);
     }catch(IOException e){
-        System.out.println("Errore nell'apertura del file");
-        System.exit(1);
+        log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
     }
     
     try{
@@ -296,14 +296,12 @@ public class MainFrame extends javax.swing.JFrame{
         }
     }
     catch(IOException e){
-         System.out.println("Errore nella lettura del file");
-        System.exit(1);
+         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
     }
     try {
         f.close();
     }catch (IOException e){
-         System.out.println("Errore nella chiusura del file");
-        System.exit(1);
+         log.append("Non è stato possibile chiudere il file di log, controllare i permessi di questo programma");
     }
     
     
@@ -364,7 +362,7 @@ public class MainFrame extends javax.swing.JFrame{
             f.flush();
             f.close();
         } catch (IOException ex) {
-            System.out.println("File non trovato");          
+            log.append("Non è stato possibile salvare il log di questo test");          
         }               
     }
     
@@ -374,15 +372,14 @@ public class MainFrame extends javax.swing.JFrame{
             f= new FileWriter("UTProgramLogs.txt", true);
            f.close();
         } catch (IOException ex) {
-            System.out.println("File non trovato, creazione file");
+            log.append("File dei log non trovato, sto creando il file");
             try{
                 f= new FileWriter("UTProgramLogs.txt", false);
                 f.close();
             }
             catch(IOException exx){
-                System.out.println("Fallita creazione file, spegnimento programma");
+                log.append("Non è stato possibile creare il file di log, controllare i permessi di questo programma");
                 exx.printStackTrace();
-                System.exit(1);
             }
           
         }
@@ -402,8 +399,7 @@ public class MainFrame extends javax.swing.JFrame{
         f=new FileReader("UTProgramLogs.txt");
         fIN= new BufferedReader(f);
     }catch(IOException e){
-        System.out.println("Errore nell'apertura del file");
-        System.exit(1);
+        log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
     }
         
     
@@ -419,22 +415,20 @@ public class MainFrame extends javax.swing.JFrame{
         }
     }
     catch(IOException e){
-         System.out.println("Errore nella lettura del file");
-        System.exit(1);
+         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
     }
     try {
         f.close();
     }catch (IOException e){
-         System.out.println("Errore nella chiusura del file");
-        System.exit(1);
+         log.append("Non è stato possibile salvare il file di log, controllare i permessi di questo programma");
     }
     
     if(exists){
-        System.out.println("Trovato programma, bentornato nel campo da test");
+        log.append("Programma selezionato precedentemente testato, il numero del test più recente è "+nInst);
         return nInst;
     }
     else{
-        System.out.println("Nuovo programma! Felice di averti nel sistema");
+        log.append("Nuovo programma! Felice di averti nel sistema");
         return 0;
     }
     }   
@@ -470,6 +464,43 @@ private static void openWebpage(URL url) {
         e.printStackTrace();
     }
 }
+    
+    private static void check&LoadConfig(){
+        FileWriter f;
+        FileReader fr;
+        BufferedReader fIN;
+        String s;
+        try {
+           f= new FileWriter("UTConfig.txt", true);
+            f.close();
+            fr= new FileReader("UTConfig.txt");
+            fIN = new BufferedReader(fr);
+            s=fIn.readLine();
+            
+            while(s!=null){
+                try{
+                    
+                    
+                    s=fIN.readLine();
+                
+                }catch(IOException e){
+                    System.out.println("Errore nella lettura del file");
+                    System.exit(1);
+                }
+        } catch (IOException ex) {
+            System.out.println("File non trovato, creazione file");
+            try{
+                f= new FileWriter("UTConfig.txt", false);
+                f.close();
+            }
+            catch(IOException exx){
+                System.out.println("Fallita creazione file, spegnimento programma");
+                exx.printStackTrace();
+                System.exit(1);
+            }
+          
+        }
+    }
     
 
 
