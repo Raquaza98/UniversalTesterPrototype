@@ -5,6 +5,7 @@
  * 
  */
 
+import java.sql.*;
 import java.awt.Desktop;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -23,6 +24,14 @@ public class MainFrame extends javax.swing.JFrame{
     
     private static String LogFileName;
     
+    private enum DBMS {
+        MySQL,
+        ORACLE,
+        DB2,
+        Sybase;
+    }
+    
+    DBMS selected;
     
     private static int nInst;
     private static String startTime;
@@ -641,6 +650,10 @@ private static void openWebpage(URL url) {
             }
           
         }
+    }
+    
+    private static void LoadJDBCDrivers(){
+    
     }
     
     private static void SaveSettings(){
