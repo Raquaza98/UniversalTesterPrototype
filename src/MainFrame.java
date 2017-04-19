@@ -21,6 +21,9 @@ import java.util.logging.Logger;
 public class MainFrame extends javax.swing.JFrame{
     final JFileChooser fc = new JFileChooser();
     
+    private static String LogFileName;
+    
+    
     private static int nInst;
     private static String startTime;
     
@@ -30,7 +33,7 @@ public class MainFrame extends javax.swing.JFrame{
     public MainFrame() {
         initComponents();
         jProgressBar1.setVisible(false);        //Hide the progress bar to remove clutter on the frame
-        check&LoadConfig();
+        CLConfig();
     }
 
     /**
@@ -42,6 +45,14 @@ public class MainFrame extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         Pname = new javax.swing.JLabel();
         Ppath = new javax.swing.JLabel();
@@ -57,9 +68,90 @@ public class MainFrame extends javax.swing.JFrame{
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+
+        jFrame1.setMinimumSize(new java.awt.Dimension(300, 300));
+        jFrame1.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                jFrame1WindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                jFrame1WindowClosing(evt);
+            }
+        });
+
+        jButton3.setText("Save and Close");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Close");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("LogFileName");
+
+        jCheckBox1.setText("DBConnection");
+        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox1StateChanged(evt);
+            }
+        });
+
+        jLabel4.setText("OutputFilesPath");
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jFrame1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
+                        .addGap(0, 185, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4))
+                    .addGroup(jFrame1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1))
+                    .addGroup(jFrame1Layout.createSequentialGroup()
+                        .addComponent(jCheckBox1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jFrame1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2)))
+                .addContainerGap())
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,6 +253,15 @@ public class MainFrame extends javax.swing.JFrame{
         );
 
         jMenu1.setText("File");
+
+        jMenuItem3.setText("Settings");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("?");
@@ -270,7 +371,7 @@ public class MainFrame extends javax.swing.JFrame{
         
         
     try{
-        f=new FileReader("UTProgramLogs.txt");
+        f=new FileReader(LogFileName);
         fIN= new BufferedReader(f);
     }catch(IOException e){
         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
@@ -319,6 +420,43 @@ public class MainFrame extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        this.setEnabled(false);
+        jFrame1.setVisible(true);
+        jFrame1.setEnabled(true);
+        LoadSettings();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jFrame1WindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame1WindowClosed
+        this.setEnabled(true);
+    }//GEN-LAST:event_jFrame1WindowClosed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        SaveSettings();
+        
+        jFrame1.setVisible(false);
+        jFrame1.setEnabled(false);
+        this.setEnabled(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jFrame1.setVisible(false);
+        jFrame1.setEnabled(false);
+        this.setEnabled(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+        if(jCheckBox1.isSelected()){
+            
+        }else{
+            
+        }
+    }//GEN-LAST:event_jCheckBox1StateChanged
+
+    private void jFrame1WindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame1WindowClosing
+        this.setEnabled(true);
+    }//GEN-LAST:event_jFrame1WindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -357,7 +495,7 @@ public class MainFrame extends javax.swing.JFrame{
     private static void SaveTestLog(String line){       //Function to put the log of the test into the log file
         FileWriter f;
         try {
-            f= new FileWriter("UTProgramLogs.txt", true);
+            f= new FileWriter(LogFileName, true);
             f.write(line);
             f.flush();
             f.close();
@@ -369,12 +507,12 @@ public class MainFrame extends javax.swing.JFrame{
     private static void fileCheck(){    //Function to see if the log file exists and if not the program will create it
         FileWriter f;
         try {
-            f= new FileWriter("UTProgramLogs.txt", true);
+            f= new FileWriter(LogFileName, true);
            f.close();
         } catch (IOException ex) {
             log.append("File dei log non trovato, sto creando il file");
             try{
-                f= new FileWriter("UTProgramLogs.txt", false);
+                f= new FileWriter(LogFileName, false);
                 f.close();
             }
             catch(IOException exx){
@@ -396,7 +534,7 @@ public class MainFrame extends javax.swing.JFrame{
         int nInst=0;
         
     try{
-        f=new FileReader("UTProgramLogs.txt");
+        f=new FileReader(LogFileName);
         fIN= new BufferedReader(f);
     }catch(IOException e){
         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
@@ -465,33 +603,36 @@ private static void openWebpage(URL url) {
     }
 }
     
-    private static void check&LoadConfig(){
+    private static void CLConfig(){
         FileWriter f;
         FileReader fr;
         BufferedReader fIN;
         String s;
+        StringTokenizer st;
         try {
-           f= new FileWriter("UTConfig.txt", true);
-            f.close();
             fr= new FileReader("UTConfig.txt");
             fIN = new BufferedReader(fr);
-            s=fIn.readLine();
+            s=fIN.readLine();
             
             while(s!=null){
                 try{
+                    st=new StringTokenizer(s, "|");
+                    LogFileName=st.nextToken();
                     
-                    
-                    s=fIN.readLine();
+                    fr.close();
                 
                 }catch(IOException e){
                     System.out.println("Errore nella lettura del file");
                     System.exit(1);
                 }
-        } catch (IOException ex) {
+        }} catch (IOException ex) {
             System.out.println("File non trovato, creazione file");
             try{
-                f= new FileWriter("UTConfig.txt", false);
+                f = new FileWriter("UTConfig.txt", false);
+                f.write("UTProgramLogs.txt");
+                f.flush();                
                 f.close();
+                LogFileName="UTProgramLogs.txt";
             }
             catch(IOException exx){
                 System.out.println("Fallita creazione file, spegnimento programma");
@@ -502,6 +643,14 @@ private static void openWebpage(URL url) {
         }
     }
     
+    private static void SaveSettings(){
+        
+    }
+    
+    private static void LoadSettings(){
+        jTextField1.setText(LogFileName);
+    }
+    
 
 
 
@@ -510,18 +659,27 @@ private static void openWebpage(URL url) {
     private javax.swing.JLabel Ppath;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
+    private static javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private static javax.swing.JTextArea log;
     private javax.swing.JButton openButton;
     // End of variables declaration//GEN-END:variables
