@@ -22,7 +22,9 @@ import java.util.logging.Logger;
 public class MainFrame extends javax.swing.JFrame{
     final JFileChooser fc = new JFileChooser();
     
-    private static String LogFileName;
+    private static String LogFileName, LogPath;
+    
+    private static int DBusage;
     
     private enum DBMS {
         MySQL,
@@ -31,7 +33,7 @@ public class MainFrame extends javax.swing.JFrame{
         Sybase;
     }
     
-    DBMS selected;
+    static DBMS selected;
     
     private static int nInst;
     private static String startTime;
@@ -62,6 +64,8 @@ public class MainFrame extends javax.swing.JFrame{
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jComboBox2 = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         Pname = new javax.swing.JLabel();
         Ppath = new javax.swing.JLabel();
@@ -117,6 +121,8 @@ public class MainFrame extends javax.swing.JFrame{
 
         jLabel4.setText("OutputFilesPath");
 
+        jLabel5.setText("DB type");
+
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
         jFrame1Layout.setHorizontalGroup(
@@ -125,7 +131,7 @@ public class MainFrame extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
-                        .addGap(0, 185, Short.MAX_VALUE)
+                        .addGap(0, 197, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4))
@@ -135,7 +141,11 @@ public class MainFrame extends javax.swing.JFrame{
                         .addComponent(jTextField1))
                     .addGroup(jFrame1Layout.createSequentialGroup()
                         .addComponent(jCheckBox1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jFrame1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -150,8 +160,11 @@ public class MainFrame extends javax.swing.JFrame{
                     .addComponent(jLabel3)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -627,6 +640,20 @@ private static void openWebpage(URL url) {
                 try{
                     st=new StringTokenizer(s, "|");
                     LogFileName=st.nextToken();
+                    LogPath = st.nextToken();
+                    
+                    if(st.nextToken().isEmpty()){
+                        DBusage = -1;
+                    }else{
+                        String _s = st.nextToken();
+                        DBMS[] _temp = DBMS.values();
+                        for(int i=0;i<DBMS.values().length; i++){
+                            if(_temp[i].toString().equals(_s)){
+                                DBusage = i;
+                            }
+                        }
+                    }
+                    
                     
                     fr.close();
                 
@@ -662,6 +689,14 @@ private static void openWebpage(URL url) {
     
     private static void LoadSettings(){
         jTextField1.setText(LogFileName);
+        jTextField2.setText(LogPath);
+        jComboBox2.setModel(null);
+        jComboBox2.addItem(DBMS.DB2);
+        jComboBox2.addItem(DBMS.MySQL);
+        jComboBox2.addItem(DBMS.ORACLE);
+        jComboBox2.addItem(DBMS.Sybase);
+        jComboBox2.setSelectedIndex(DBusage);
+        
     }
     
 
@@ -676,11 +711,13 @@ private static void openWebpage(URL url) {
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
+    private static javax.swing.JComboBox jComboBox2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -692,7 +729,7 @@ private static void openWebpage(URL url) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
     private static javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private static javax.swing.JTextField jTextField2;
     private static javax.swing.JTextArea log;
     private javax.swing.JButton openButton;
     // End of variables declaration//GEN-END:variables
