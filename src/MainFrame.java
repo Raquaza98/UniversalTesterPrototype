@@ -24,7 +24,7 @@ public class MainFrame extends javax.swing.JFrame{
     
     private static String LogFileName, LogPath;
     
-    private static int DBusage;
+    private static Integer DBusage;
     
     private enum DBMS {
         MySQL,
@@ -66,6 +66,14 @@ public class MainFrame extends javax.swing.JFrame{
         jTextField2 = new javax.swing.JTextField();
         jComboBox2 = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         Pname = new javax.swing.JLabel();
         Ppath = new javax.swing.JLabel();
@@ -86,7 +94,7 @@ public class MainFrame extends javax.swing.JFrame{
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
-        jFrame1.setMinimumSize(new java.awt.Dimension(300, 300));
+        jFrame1.setMinimumSize(new java.awt.Dimension(450, 300));
         jFrame1.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 jFrame1WindowClosed(evt);
@@ -118,10 +126,35 @@ public class MainFrame extends javax.swing.JFrame{
                 jCheckBox1StateChanged(evt);
             }
         });
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("OutputFilesPath");
 
         jLabel5.setText("DB type");
+
+        jLabel6.setText("IP");
+
+        jLabel7.setText("Port");
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Username");
+
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Password");
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -131,7 +164,7 @@ public class MainFrame extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
-                        .addGap(0, 197, Short.MAX_VALUE)
+                        .addGap(0, 185, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4))
@@ -140,16 +173,37 @@ public class MainFrame extends javax.swing.JFrame{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1))
                     .addGroup(jFrame1Layout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jFrame1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2)))
+                        .addComponent(jTextField2))
+                    .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jFrame1Layout.createSequentialGroup()
+                            .addComponent(jCheckBox1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel5)
+                            .addGap(18, 18, 18)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jFrame1Layout.createSequentialGroup()
+                            .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrame1Layout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextField5))
+                                .addGroup(jFrame1Layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel7)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jFrame1Layout.createSequentialGroup()
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(jFrame1Layout.createSequentialGroup()
+                                    .addComponent(jLabel9)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextField6))))))
                 .addContainerGap())
         );
         jFrame1Layout.setVerticalGroup(
@@ -164,7 +218,19 @@ public class MainFrame extends javax.swing.JFrame{
                     .addComponent(jCheckBox1)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -479,6 +545,30 @@ public class MainFrame extends javax.swing.JFrame{
         this.setEnabled(true);
     }//GEN-LAST:event_jFrame1WindowClosing
 
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        if(!jCheckBox1.isSelected()){
+            jComboBox2.setEnabled(false);
+            jTextField3.setEnabled(false);
+            jTextField4.setEnabled(false);
+            jTextField5.setEnabled(false);
+            jTextField6.setEnabled(false);
+        }else{
+            jComboBox2.setEnabled(true);
+            jTextField3.setEnabled(true);
+            jTextField4.setEnabled(true);
+            jTextField5.setEnabled(true);
+            jTextField6.setEnabled(true);
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -635,37 +725,27 @@ private static void openWebpage(URL url) {
             fr= new FileReader("UTConfig.txt");
             fIN = new BufferedReader(fr);
             s=fIN.readLine();
-            
             while(s!=null){
                 try{
                     st=new StringTokenizer(s, "|");
-                    LogFileName=st.nextToken();
+                    LogFileName = st.nextToken();
                     LogPath = st.nextToken();
                     
-                    if(st.nextToken().isEmpty()){
-                        DBusage = -1;
-                    }else{
-                        String _s = st.nextToken();
-                        DBMS[] _temp = DBMS.values();
-                        for(int i=0;i<DBMS.values().length; i++){
-                            if(_temp[i].toString().equals(_s)){
-                                DBusage = i;
-                            }
-                        }
-                    }
+                    System.out.println("stuck");
                     
+                    DBusage = Integer.parseInt(st.nextToken());
                     
+                    s=fIN.readLine();
                     fr.close();
                 
                 }catch(IOException e){
                     System.out.println("Errore nella lettura del file");
-                    System.exit(1);
                 }
         }} catch (IOException ex) {
             System.out.println("File non trovato, creazione file");
             try{
                 f = new FileWriter("UTConfig.txt", false);
-                f.write("UTProgramLogs.txt");
+                f.write("UTProgramLogs.txt| |-1||");
                 f.flush();                
                 f.close();
                 LogFileName="UTProgramLogs.txt";
@@ -684,18 +764,34 @@ private static void openWebpage(URL url) {
     }
     
     private static void SaveSettings(){
-        
+        FileWriter f;
+        try{
+                f = new FileWriter(LogPath+"UTConfig.txt", false);
+                f.write(LogFileName+"|"+LogPath+"|"+DBusage);
+                f.flush();                
+                f.close();
+            }
+            catch(IOException exx){
+                log.append("Settings saved");
+            }
     }
     
     private static void LoadSettings(){
         jTextField1.setText(LogFileName);
         jTextField2.setText(LogPath);
-        jComboBox2.setModel(null);
         jComboBox2.addItem(DBMS.DB2);
         jComboBox2.addItem(DBMS.MySQL);
         jComboBox2.addItem(DBMS.ORACLE);
         jComboBox2.addItem(DBMS.Sybase);
         jComboBox2.setSelectedIndex(DBusage);
+        
+        if(DBusage.equals(-1)){
+            jComboBox2.setEnabled(false);
+            jTextField3.setEnabled(false);
+            jTextField4.setEnabled(false);
+            jTextField5.setEnabled(false);
+            jTextField6.setEnabled(false);
+        }
         
     }
     
@@ -718,6 +814,10 @@ private static void openWebpage(URL url) {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -730,6 +830,10 @@ private static void openWebpage(URL url) {
     private javax.swing.JSpinner jSpinner1;
     private static javax.swing.JTextField jTextField1;
     private static javax.swing.JTextField jTextField2;
+    private static javax.swing.JTextField jTextField3;
+    private static javax.swing.JTextField jTextField4;
+    private static javax.swing.JTextField jTextField5;
+    private static javax.swing.JTextField jTextField6;
     private static javax.swing.JTextArea log;
     private javax.swing.JButton openButton;
     // End of variables declaration//GEN-END:variables
