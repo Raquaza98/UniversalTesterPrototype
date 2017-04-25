@@ -35,6 +35,8 @@ public class MainFrame extends javax.swing.JFrame{
     
     static DBMS selected;
     
+    static boolean DriversInstalled = false;
+    
     private static int nInst;
     private static String startTime;
     
@@ -731,9 +733,10 @@ private static void openWebpage(URL url) {
                     LogFileName = st.nextToken();
                     LogPath = st.nextToken();
                     
-                    System.out.println("stuck");
-                    
                     DBusage = Integer.parseInt(st.nextToken());
+                    if(!DBusage.equals(-1)){
+                        LoadJDBCDrivers();
+                    }
                     
                     s=fIN.readLine();
                     fr.close();
@@ -760,28 +763,33 @@ private static void openWebpage(URL url) {
     }
     
     private static void LoadJDBCDrivers(){
-    
+        DriversInstalled = true;
+        
     }
     
     private static void SaveSettings(){
+        
         FileWriter f;
         try{
-                f = new FileWriter(LogPath+"UTConfig.txt", false);
-                f.write(LogFileName+"|"+LogPath+"|"+DBusage);
+                f = new FileWriter("UTConfig.txt", false);
+                f.write(jTextField1.getText()+"|"+jTextField2.getText()+"|"+jComboBox2.getSelectedIndex());
                 f.flush();                
                 f.close();
             }
             catch(IOException exx){
                 log.append("Settings saved");
             }
+        LogFileName = jTextField1.getText();
+        LogPath = jTextField2.getText();
+        DBusage = jComboBox2.getSelectedIndex();
     }
     
     private static void LoadSettings(){
         jTextField1.setText(LogFileName);
         jTextField2.setText(LogPath);
-        jComboBox2.addItem(DBMS.DB2);
         jComboBox2.addItem(DBMS.MySQL);
         jComboBox2.addItem(DBMS.ORACLE);
+        jComboBox2.addItem(DBMS.DB2);
         jComboBox2.addItem(DBMS.Sybase);
         jComboBox2.setSelectedIndex(DBusage);
         
