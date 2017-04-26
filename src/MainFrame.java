@@ -22,7 +22,10 @@ import java.util.logging.Logger;
 public class MainFrame extends javax.swing.JFrame{
     final JFileChooser fc = new JFileChooser();
     
-    private static String LogFileName, LogPath;
+    private static String LogFileName, LogPath, DBUrl;
+    
+    private static Connection DBConn=null;
+    private static Statement DBQuery=null;
     
     private static Integer DBusage;
     
@@ -763,8 +766,66 @@ private static void openWebpage(URL url) {
     }
     
     private static void LoadJDBCDrivers(){
-        DriversInstalled = true;
+        try {
+            switch(DBusage){
+                case 0: 
+                    Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    break;
+                case 1:
+                    Class.forName("oracle.jdbc.driver.OracleDriver").newInstance();
+                    break;
+                case 2:
+                    Class.forName("COM.ibm.db2.jdbc.net.DB2Driver").newInstance();
+                    break;
+                case 3:
+                    Class.forName("com.sybase.jdbc.SybDriver").newInstance();
+                    break;
+                default:
+                    break;
+            }
+            DriversInstalled = true;
+        }
         
+        catch(ClassNotFoundException ex) {
+            log.append("Driver per connessione database non caricato");
+        catch(IllegalAccessException ex) {
+            log.append("Riscontrato problema di accesso durante il caricamento del driver\r\n");
+        catch(InstantiationException ex) {
+            log.append("Driver non instanziato");
+        }       
+        
+    }
+            
+    private static void DBConnect(){
+        if(DriversInstalled){
+            switch(DBusage){
+                case 0: 
+                    DBUrl = "jdbc:mysql://+"jTextField3.getText()+"/";                    
+                    break;
+                case 1:
+                    DBUrl = "jdbc:oracle:thin:@"+jTextField3.getText()+":"+jTextField4.getText()+":";
+                    break;
+                case 2:
+                    DBUrl = "jdbc:db2:"+jTextField3.getText()+":"+jTextField4.getText()+"/";
+                    break;
+                case 3:
+                    DBUrl = "jdbc:sybase:Tds:"+jTextField3.getText()+":"+jTextField4.getText()+"/";
+                    break;
+                default:
+                    break;
+            }
+            DBConn = DriverManager.getConnection(DBUrl, jTextField4.getText(), jTextField5.getText());
+        }else{
+            log.append("Driver non installato");
+        }
+    }
+            
+    private static void DBCreationAndSetting(){
+        DBQuery = DBConn.createStatement();
+        DBQuery.executeQuery("create database UTL;");
+        DBConn+=UTL;
+        DBQuery = DBConn.createStatement();
+        DBQuery.executeQuery("create table Logs(ID int auto_increment primary key, program varchar(50) not null, instance int not null, startTime date, endTime date );");
     }
     
     private static void SaveSettings(){
