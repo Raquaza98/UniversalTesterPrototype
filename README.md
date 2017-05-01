@@ -7,7 +7,7 @@ The program is made to allow programmers to visualize the use of memory and cpu 
 The program works on any platform, with any computer setup.
 Requires java version 8 update 111 (build 1.8.0_111-b14) or above.
 
-## Setup
+## Setup - [Need more help?](https://github.com/Raquaza98/UniversalTesterPrototype/wiki)
 * Download the UniversalTester.java file from the releases tab
 * Open the file, it is the equivalent of a .exe in windows
 * Customize save log path and/or connect the program to a DB 
