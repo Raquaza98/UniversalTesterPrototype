@@ -788,8 +788,10 @@ private static void openWebpage(URL url) {
         
         catch(ClassNotFoundException ex) {
             log.append("Driver per connessione database non caricato");
+        }
         catch(IllegalAccessException ex) {
             log.append("Riscontrato problema di accesso durante il caricamento del driver\r\n");
+        }
         catch(InstantiationException ex) {
             log.append("Driver non instanziato");
         }       
@@ -800,7 +802,7 @@ private static void openWebpage(URL url) {
         if(DriversInstalled){
             switch(DBusage){
                 case 0: 
-                    DBUrl = "jdbc:mysql://+"jTextField3.getText()+"/";                    
+                    DBUrl = "jdbc:mysql://"+jTextField3.getText()+"/";                    
                     break;
                 case 1:
                     DBUrl = "jdbc:oracle:thin:@"+jTextField3.getText()+":"+jTextField4.getText()+":";
@@ -814,16 +816,20 @@ private static void openWebpage(URL url) {
                 default:
                     break;
             }
-            DBConn = DriverManager.getConnection(DBUrl, jTextField4.getText(), jTextField5.getText());
+            try {
+                DBConn = DriverManager.getConnection(DBUrl, jTextField4.getText(), jTextField5.getText());
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else{
             log.append("Driver non installato");
         }
     }
             
-    private static void DBCreationAndSetting(){
+    private static void DBCreationAndSetting() throws SQLException{
         DBQuery = DBConn.createStatement();
         DBQuery.executeQuery("create database UTL;");
-        DBConn+=UTL;
+        DBConn = DriverManager.getConnection(DBUrl+"UTL", jTextField4.getText(), jTextField5.getText());
         DBQuery = DBConn.createStatement();
         DBQuery.executeQuery("create table Logs(ID int auto_increment primary key, program varchar(50) not null, instance int not null, startTime date, endTime date );");
     }
