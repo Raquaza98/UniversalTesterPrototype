@@ -720,7 +720,7 @@ private static void openWebpage(URL url) {
     }
 }
     
-    private static void CLConfig(){
+    private static void CLConfig(){     //Function for searching the settings and if there aren't any, select the default one
         FileWriter f;
         FileReader fr;
         BufferedReader fIN;
@@ -765,7 +765,7 @@ private static void openWebpage(URL url) {
         }
     }
     
-    private static void LoadJDBCDrivers(){
+    private static void LoadJDBCDrivers(){      //Given the right selection, drivers will be instantieted
         try {
             switch(DBusage){
                 case 0: 
@@ -798,7 +798,7 @@ private static void openWebpage(URL url) {
         
     }
             
-    private static void DBConnect(){
+    private static void DBConnect(){        //Based on the user selection, this function will create the right url to connect to the db
         if(DriversInstalled){
             switch(DBusage){
                 case 0: 
@@ -834,7 +834,17 @@ private static void openWebpage(URL url) {
         DBQuery.executeQuery("create table Logs(ID int auto_increment primary key, program varchar(50) not null, instance int not null, startTime date, endTime date );");
     }
     
-    private static void SaveSettings(){
+    private static void InsertData(String input) throws SQLException{       //Insert the file log inside the db
+        StringTokenizer st = new StringTokenizer(input, "|");
+        DBQuery.executeUpdate("insert into Logs values (NULL,"+st.nextToken()+","+st.nextToken()+","+st.nextToken()+","+st.nextToken()+");");
+    }
+    
+    private static string checkSQLVal(String input){        //Function for checking possible SQL injections
+        StringTokenizer st = new StringTokenizer(input, ";");
+        return st.nextToken();
+    }
+    
+    private static void SaveSettings(){     //Function for saving the settings inside a file in the user's computer
         
         FileWriter f;
         try{
@@ -851,7 +861,7 @@ private static void openWebpage(URL url) {
         DBusage = jComboBox2.getSelectedIndex();
     }
     
-    private static void LoadSettings(){
+    private static void LoadSettings(){     //Loading the settings inside the textboxes in the settings window
         jTextField1.setText(LogFileName);
         jTextField2.setText(LogPath);
         jComboBox2.addItem(DBMS.MySQL);
