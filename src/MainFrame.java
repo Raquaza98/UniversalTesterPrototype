@@ -411,7 +411,7 @@ public class MainFrame extends javax.swing.JFrame{
             Ppath.setText(file.getAbsolutePath());
             Pname.setText(file.getName());
             
-            log.append("File selezionato: " + file.getName() + "." + newline);
+            log.append("File selezionato: " + file.getName() + "." + newline+"\r\n");
         } else {
             log.append("" + newline);
         }}
@@ -419,7 +419,7 @@ public class MainFrame extends javax.swing.JFrame{
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(Ppath.getText().isEmpty() || Pname.getText().isEmpty() || (int)jSpinner1.getValue()<30){
-            log.append("Valori non completi e/o non validi");
+            log.append("Valori non completi e/o non validi\r\n");
         }else{
             
             jProgressBar1.setMaximum((int)jSpinner1.getValue());        //Show and start progress bar
@@ -467,7 +467,7 @@ public class MainFrame extends javax.swing.JFrame{
         f=new FileReader(LogFileName);
         fIN= new BufferedReader(f);
     }catch(IOException e){
-        log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
+        log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma\r\n");
     }
     
     try{
@@ -490,12 +490,12 @@ public class MainFrame extends javax.swing.JFrame{
         }
     }
     catch(IOException e){
-         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
+         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma\r\n");
     }
     try {
         f.close();
     }catch (IOException e){
-         log.append("Non è stato possibile chiudere il file di log, controllare i permessi di questo programma");
+         log.append("Non è stato possibile chiudere il file di log, controllare i permessi di questo programma\r\n");
     }
     
     
@@ -617,7 +617,7 @@ public class MainFrame extends javax.swing.JFrame{
             f.flush();
             f.close();
         } catch (IOException ex) {
-            log.append("Non è stato possibile salvare il log di questo test");          
+            log.append("Non è stato possibile salvare il log di questo test\r\n");          
         }               
     }
     
@@ -627,13 +627,13 @@ public class MainFrame extends javax.swing.JFrame{
             f= new FileWriter(LogFileName, true);
            f.close();
         } catch (IOException ex) {
-            log.append("File dei log non trovato, sto creando il file");
+            log.append("File dei log non trovato, sto creando il file\r\n");
             try{
                 f= new FileWriter(LogFileName, false);
                 f.close();
             }
             catch(IOException exx){
-                log.append("Non è stato possibile creare il file di log, controllare i permessi di questo programma");
+                log.append("Non è stato possibile creare il file di log, controllare i permessi di questo programma\r\n");
                 exx.printStackTrace();
             }
           
@@ -654,7 +654,7 @@ public class MainFrame extends javax.swing.JFrame{
         f=new FileReader(LogFileName);
         fIN= new BufferedReader(f);
     }catch(IOException e){
-        log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
+        log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma\r\n");
     }
         
     
@@ -670,20 +670,20 @@ public class MainFrame extends javax.swing.JFrame{
         }
     }
     catch(IOException e){
-         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma");
+         log.append("Non è stato possibile leggere il file di log, controllare i permessi di questo programma\r\n");
     }
     try {
         f.close();
     }catch (IOException e){
-         log.append("Non è stato possibile salvare il file di log, controllare i permessi di questo programma");
+         log.append("Non è stato possibile salvare il file di log, controllare i permessi di questo programma\r\n");
     }
     
     if(exists){
-        log.append("Programma selezionato precedentemente testato, il numero del test più recente è "+nInst);
+        log.append("Programma selezionato precedentemente testato, il numero del test più recente è "+nInst+"\r\n");
         return nInst;
     }
     else{
-        log.append("Nuovo programma! Felice di averti nel sistema");
+        log.append("Nuovo programma! Felice di averti nel sistema\r\n");
         return 0;
     }
     }   
@@ -698,7 +698,7 @@ public class MainFrame extends javax.swing.JFrame{
     public static void end(){   //Function of end test and save log
         String fileName = Pname.getText()+ "|" + (nInst) + "|" + startTime + "|" + currentTime()+"\r\n";
         SaveTestLog(fileName);
-        log.append("Esecuzione terminata");
+        log.append("Esecuzione terminata\r\n");
     }
     
     private static void openWebpage(URI uri) {
@@ -782,19 +782,21 @@ private static void openWebpage(URL url) {
                     break;
                 default:
                     break;
-            }
-            DriversInstalled = true;
+            }            
         }
         
         catch(ClassNotFoundException ex) {
-            log.append("Driver per connessione database non caricato");
+            log.append("Driver per connessione database non caricato\r\n");
         }
         catch(IllegalAccessException ex) {
             log.append("Riscontrato problema di accesso durante il caricamento del driver\r\n");
         }
         catch(InstantiationException ex) {
-            log.append("Driver non instanziato");
+            log.append("Driver non instanziato\r\n");
         }       
+        finally{
+            DriversInstalled = true;
+        }
         
     }
             
@@ -822,7 +824,7 @@ private static void openWebpage(URL url) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            log.append("Driver non installato");
+            log.append("Connessione al db non possibile\r\n");
         }
     }
             
@@ -854,7 +856,7 @@ private static void openWebpage(URL url) {
                 f.close();
             }
             catch(IOException exx){
-                log.append("Settings saved");
+                log.append("Settings not saved\r\n");
             }
         LogFileName = jTextField1.getText();
         LogPath = jTextField2.getText();
