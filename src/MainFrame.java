@@ -698,6 +698,13 @@ public class MainFrame extends javax.swing.JFrame{
     public static void end(){   //Function of end test and save log
         String fileName = Pname.getText()+ "|" + (nInst) + "|" + startTime + "|" + currentTime()+"\r\n";
         SaveTestLog(fileName);
+        if(DBusage != -1){
+            try {
+                InsertData(checkSQLVal(fileName));
+            } catch (SQLException ex) {
+                log.append("Inserimento valori db fallito\r\n");
+            }
+        }
         log.append("Esecuzione terminata\r\n");
     }
     
@@ -841,7 +848,7 @@ private static void openWebpage(URL url) {
         DBQuery.executeUpdate("insert into Logs values (NULL,"+st.nextToken()+","+st.nextToken()+","+st.nextToken()+","+st.nextToken()+");");
     }
     
-    private static string checkSQLVal(String input){        //Function for checking possible SQL injections
+    private static String checkSQLVal(String input){        //Function for checking possible SQL injections
         StringTokenizer st = new StringTokenizer(input, ";");
         return st.nextToken();
     }
@@ -861,6 +868,16 @@ private static void openWebpage(URL url) {
         LogFileName = jTextField1.getText();
         LogPath = jTextField2.getText();
         DBusage = jComboBox2.getSelectedIndex();
+        
+        if(DBusage != -1){
+            try {
+                LoadJDBCDrivers();
+                DBConnect();
+                DBCreationAndSetting();
+            } catch (SQLException ex) {
+                log.append("creazione connessione db fallita\r\n");
+            }
+        }
     }
     
     private static void LoadSettings(){     //Loading the settings inside the textboxes in the settings window
