@@ -147,19 +147,7 @@ public class MainFrame extends javax.swing.JFrame{
 
         jLabel7.setText("Port");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("Username");
-
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
 
         jLabel9.setText("Password");
 
@@ -450,16 +438,7 @@ public class MainFrame extends javax.swing.JFrame{
              
                 Thread tt= new Thread(central);
                 tt.start();
-                
-                while(!SystemListener.inExe()){
-                    
-                }
                 t.start();
-                    
-            
-            
-            
-            
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -517,7 +496,11 @@ public class MainFrame extends javax.swing.JFrame{
     }//GEN-LAST:event_jComboBox1MouseEntered
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            openWebpage(new URL("https://github.com/Raquaza98/UniversalTesterPrototype/wiki/Quick-Usage-Tutorial"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -564,14 +547,6 @@ public class MainFrame extends javax.swing.JFrame{
     private void jFrame1WindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame1WindowClosing
         this.setEnabled(true);
     }//GEN-LAST:event_jFrame1WindowClosing
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if(!jCheckBox1.isSelected()){

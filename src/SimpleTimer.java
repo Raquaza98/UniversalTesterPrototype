@@ -18,7 +18,11 @@ public class SimpleTimer implements Runnable{
     }
     
     public void run(){
-        while(SystemListener.working()){
+        editor.setValue(editor.getMinimum()); //Resets progress bar
+        while(!SystemListener.inExe()){ //Wait until program is found working
+                    
+        }
+        while(SystemListener.working()){    //Work until the test ends
             try {
                 while(editor.getValue()<timeEnd){
                     TimeUnit.SECONDS.sleep(1);
@@ -28,6 +32,6 @@ public class SimpleTimer implements Runnable{
                 Logger.getLogger(SimpleTimer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        editor.setValue(timeEnd);
+        editor.setValue(timeEnd);   //In case test ends early
     }
 }
