@@ -70,7 +70,7 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             try{
                 TimeUnit.SECONDS.sleep(timeCheck);
             }   catch (InterruptedException ex) {
-                System.out.println("Programma interrotto");
+                System.out.println("Programma interrotto. Prossimo controllo tra "+timeCheck);
             }
             ProgramActive();
             timeCheck++;
