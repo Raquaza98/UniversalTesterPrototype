@@ -53,7 +53,7 @@ public class SystemListener implements Runnable {
             p = rt.exec(pPath);     //Starting the program to test
             
         } catch (IOException ex) {
-            Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SystemListener.class.getName()).log(Level.WARNING, null, ex);
         } 
         
         int timeCheck = 1;
@@ -62,8 +62,9 @@ public class SystemListener implements Runnable {
             try{
                 TimeUnit.SECONDS.sleep(timeCheck);
             }   catch (InterruptedException ex) {
-                Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SystemListener.class.getName()).log(Level.WARNING, null, ex);
             }
+            System.out.println(pName);
             try {
                 long[] Pids = sigar.getProcList();     //Function to get the process list and search the tested program
                 int i=0;
@@ -81,18 +82,18 @@ public class SystemListener implements Runnable {
             System.out.println("Programma non trovato. Prossimo controllo tra "+timeCheck);
         }
         
+        System.out.println("Programma trovato");
         
         try {
             f.write(sigar.getMem().getRam()+"|"+time+"|"+fPid+"|"+sigar.getProcState(fPid)+"\r\n");
             f.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SigarException ex) {
+        } catch (IOException | SigarException ex) {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        while(exit){                        try {            //Every second infos of system gets written on a file
+        while(exit){                        
+            try {            //Every second infos of system gets written on a file
             Exe = true;
             Mem m = sigar.getMem();
             CpuPerc c = sigar.getCpuPerc();

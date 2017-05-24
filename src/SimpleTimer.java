@@ -20,7 +20,11 @@ public class SimpleTimer implements Runnable{
     public void run(){
         editor.setValue(editor.getMinimum()); //Resets progress bar
         while(!SystemListener.inExe()){ //Wait until program is found working
-                    
+            try{
+                TimeUnit.SECONDS.sleep(1);
+            }   catch (InterruptedException ex) {
+                Logger.getLogger(SystemListener.class.getName()).log(Level.WARNING, null, ex);
+            }
         }
         while(SystemListener.working()){    //Work until the test ends
             try {
