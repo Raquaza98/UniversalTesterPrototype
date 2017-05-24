@@ -434,7 +434,7 @@ public class MainFrame extends javax.swing.JFrame{
             //Creating and starting the test thread with the necessary infos (savefile name, program path, time limit, program name)
             String _listenerFileName = "TestLog "+Pname.getText()+" N "+nInst+".txt";
             
-            SystemListener central = new SystemListener(_listenerFileName, Ppath.getText(), (int)jSpinner1.getValue(), Pname.getText());
+            SystemListener central = new SystemListener(_listenerFileName, Ppath.getText(), (int)jSpinner1.getValue(), Pname.getText().replace(".exe", ""));
              
                 Thread tt= new Thread(central);
                 tt.start();
