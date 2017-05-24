@@ -63,7 +63,6 @@ public class SystemListener implements Runnable {
             }   catch (InterruptedException ex) {
                 Logger.getLogger(SystemListener.class.getName()).log(Level.WARNING, null, ex);
             }
-            System.out.println(pName);
             try {
                 long[] Pids = sigar.getProcList();     //Function to get the process list and search the tested program
                 int i=0;
@@ -78,10 +77,10 @@ public class SystemListener implements Runnable {
                 Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
             }
             timeCheck++;
-            System.out.println("Programma non trovato. Prossimo controllo tra "+timeCheck);
+            MainFrame.printInfo("Programma non trovato. Prossimo controllo tra "+timeCheck);
         }
         
-        System.out.println("Programma trovato");
+        MainFrame.printInfo("Programma trovato");
         
         try {
             f.write(sigar.getMem().getRam()+"|"+time+"|"+fPid+"|"+sigar.getProcState(fPid)+"\r\n");

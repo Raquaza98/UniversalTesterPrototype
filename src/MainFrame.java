@@ -27,7 +27,7 @@ public class MainFrame extends javax.swing.JFrame{
     private static Connection DBConn=null;
     private static Statement DBQuery=null;
     
-    private static Integer DBusage;
+    private static Integer DBusage = -1;
     
     private enum DBMS {
         MySQL,
@@ -888,6 +888,11 @@ private static void openWebpage(URL url) {
         }
         
     }
+    
+    public static void printInfo(String info){
+        log.append(info+"\r\n");
+    }
+    
     
 
 
