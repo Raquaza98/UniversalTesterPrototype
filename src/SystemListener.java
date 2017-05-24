@@ -70,10 +70,23 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             try{
                 TimeUnit.SECONDS.sleep(timeCheck);
             }   catch (InterruptedException ex) {
-                System.out.println("Programma interrotto. Prossimo controllo tra "+timeCheck);
+                Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
             }
-            ProgramActive();
+            try {
+                long[] Pids = this.sigar.getProcList();     //Function to get the process list and search the tested program
+                int i=0;
+                while(Pids.length>i && !found){
+                    if(this.sigar.getProcState(Pids[i]).getName().equals(pName)){
+                        fPid = Pids[i];
+                        found = true;
+                    }
+                    i++;
+                }
+            }catch (SigarException ex) {
+                Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
             timeCheck++;
+            System.out.println("Programma non trovato. Prossimo controllo tra "+timeCheck);
         }
         
         
@@ -123,22 +136,6 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         data = data*100;
         String _tempString = data.toString();
         return _tempString.substring(0, _tempString.indexOf("."));
-    }
-    
-    private void ProgramActive(){
-        try {
-            long[] Pids = this.sigar.getProcList();     //Function to get the process list and search the tested program
-            int i=0;
-            while(Pids.length>i && !found){
-                if(this.sigar.getProcState(Pids[i]).getName().equals(pName)){
-                    fPid = Pids[i];
-                    found = true;
-                }
-                i++;
-            }
-        } catch (SigarException ex) {
-            System.out.println("Programma selezionato non attivo");
-        }
     }
     
     public static boolean inExe(){    //Function for the timer interaction
