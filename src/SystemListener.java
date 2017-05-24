@@ -8,7 +8,6 @@ import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
-import org.hyperic.sigar.SigarPermissionDeniedException;
 
 /**
  *
@@ -42,7 +41,7 @@ public class SystemListener implements Runnable {
     }
 
     
-    public void run() {
+    public void run() {   
         Sigar sigar = new Sigar();
         int timeTot=0;
         boolean exit=true;
