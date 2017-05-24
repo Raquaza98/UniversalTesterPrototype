@@ -6,15 +6,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Mem;
+import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.hyperic.sigar.SigarPermissionDeniedException;
-import org.hyperic.sigar.cmd.SigarCommandBase;
 
 /**
  *
  * @author Gasperini "Raquaza98" Luca
  */
-public class SystemListener extends SigarCommandBase implements Runnable {
+public class SystemListener implements Runnable {
     private FileWriter f;
     private static String pPath, pName;
     private static boolean alive=true, Exe = false;
@@ -41,17 +41,9 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         }
     }
 
-
     
     public void run() {
-        try {
-            output(null);
-        } catch (SigarException ex) {
-            Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void output(String[] args) throws SigarException, SigarPermissionDeniedException {
+        Sigar sigar = new Sigar();
         int timeTot=0;
         boolean exit=true;
         Process p;
@@ -73,10 +65,10 @@ public class SystemListener extends SigarCommandBase implements Runnable {
                 Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                long[] Pids = this.sigar.getProcList();     //Function to get the process list and search the tested program
+                long[] Pids = sigar.getProcList();     //Function to get the process list and search the tested program
                 int i=0;
                 while(Pids.length>i && !found){
-                    if(this.sigar.getProcState(Pids[i]).getName().equals(pName)){
+                    if(sigar.getProcState(Pids[i]).getName().equals(pName)){
                         fPid = Pids[i];
                         found = true;
                     }
@@ -91,21 +83,23 @@ public class SystemListener extends SigarCommandBase implements Runnable {
         
         
         try {
-            f.write(this.sigar.getMem().getRam()+"|"+time+"|"+fPid+"|"+this.sigar.getProcState(fPid)+"\r\n");
+            f.write(sigar.getMem().getRam()+"|"+time+"|"+fPid+"|"+sigar.getProcState(fPid)+"\r\n");
             f.flush();
         } catch (IOException ex) {
+            Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SigarException ex) {
             Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        while(exit){            //Every second infos of system gets written on a file
+        while(exit){                        try {            //Every second infos of system gets written on a file
             Exe = true;
-            Mem m = this.sigar.getMem();
-            CpuPerc c = this.sigar.getCpuPerc();
+            Mem m = sigar.getMem();
+            CpuPerc c = sigar.getCpuPerc();
             try {
                 Long Free = (Long) m.getFree(), Used = (Long) m.getUsed();
                 Double CpuT = c.getUser(), CpuI = c.getIdle();
-                           
+                
                 
                 
                 f.write(MBconversion(Used)+"|"+CpuConversion(CpuT));
@@ -117,6 +111,9 @@ public class SystemListener extends SigarCommandBase implements Runnable {
             }
             timeTot++;
             if(timeTot>time)  exit=false;  //When time runs out the program exits and saves the file
+        } catch (SigarException ex) {
+                Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         try {
             f.close();
