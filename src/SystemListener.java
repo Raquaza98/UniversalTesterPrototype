@@ -8,6 +8,8 @@ import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
+import org.hyperic.jni.ArchName;
+import org.hyperic.jni.ArchNotSupportedException;
 
 /**
  *
@@ -47,6 +49,26 @@ public class SystemListener implements Runnable {
         boolean exit=true;
         Process p;
         
+        try {
+            switch(ArchName.getName().substring(ArchName.getName().lastIndexOf("-")+1)){
+                case "winnt":
+                    pName = pName.replace(".exe", "");
+                    break;
+                case "linux":
+                    pName = pName.replace(".run", "");
+                    pName = pName.replace(".out", "");
+                    break;
+                case "macosx":
+                    pName = pName.replace(".osx", "");
+                    break;
+                default:
+                    pName = pName.substring(pName.lastIndexOf(".")+1);
+                    break;
+            }
+        } catch (ArchNotSupportedException ex) {
+            Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         Runtime rt = Runtime.getRuntime();  
         try {
             p = rt.exec(pPath);     //Starting the program to test
@@ -77,10 +99,10 @@ public class SystemListener implements Runnable {
                 Logger.getLogger(SystemListener.class.getName()).log(Level.SEVERE, null, ex);
             }
             timeCheck++;
-            MainFrame.printInfo("Programma non trovato. Prossimo controllo tra "+timeCheck);
+            MainFrame.printInfo("Programma non trovato. Prossimo controllo tra "+timeCheck+" secondi");
         }
         
-        MainFrame.printInfo("Programma trovato");
+        MainFrame.printInfo("Programma trovato, inizio test");
         
         try {
             f.write(sigar.getMem().getRam()+"|"+time+"|"+fPid+"|"+sigar.getProcState(fPid)+"\r\n");

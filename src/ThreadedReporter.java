@@ -18,7 +18,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
 
     private String fileName, results;
     private boolean executed=false, CPUGraphView=true, RAMGraphView=true;
-    private Graphics graphRAM, graphCPU;
     
     private Double [] CPUvals = new Double[4], RAMvals = new Double[4];
     private long CPUnAvg=0, RAMnAvg=0, nLines=0;
@@ -38,6 +37,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     public ThreadedReporter(String fileName, int i) {
         this.fileName=fileName;   
         initComponents();
+        this.setTitle(fileName.replace(".txt", ""));
         CPUvals[0]=Double.parseDouble("0");
         CPUvals[3]=Double.parseDouble("0");
         RAMvals[0]=Double.parseDouble("0");
@@ -137,12 +137,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         jTextArea1.setMaximumSize(new java.awt.Dimension(160, 75));
         jScrollPane3.setViewportView(jTextArea1);
 
-        jScrollPane2.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentMoved(java.awt.event.ComponentEvent evt) {
-                jScrollPane2ComponentMoved(evt);
-            }
-        });
-
         javax.swing.GroupLayout canvas2Layout = new javax.swing.GroupLayout(canvas2);
         canvas2.setLayout(canvas2Layout);
         canvas2Layout.setHorizontalGroup(
@@ -151,7 +145,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
         );
         canvas2Layout.setVerticalGroup(
             canvas2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 467, Short.MAX_VALUE)
+            .addGap(0, 489, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(canvas2);
@@ -194,7 +188,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
                     .addComponent(jToggleButton1)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jToggleButton2)
@@ -210,7 +204,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jToggleButton1)
@@ -222,7 +216,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
 
@@ -240,11 +234,6 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         GetReport();
     }//GEN-LAST:event_formComponentResized
-
-    private void jScrollPane2ComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPane2ComponentMoved
-        Graphics _g = canvas2.getGraphics();
-        _g = graphCPU;
-    }//GEN-LAST:event_jScrollPane2ComponentMoved
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         RAMGraphView=!RAMGraphView;
@@ -374,7 +363,7 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
             
         }
         
-        g.setColor(Color.green);
+        g.setColor(Color.blue);
         
         
     
@@ -489,11 +478,9 @@ public class ThreadedReporter extends javax.swing.JFrame implements Runnable{
     if(type){
         RAMvals[0]=RAMvals[3]/nLines;
         RAMnAvg = getNUnderAvg(RAMvals[0], type);
-        graphRAM = g.create();
     }else{
         CPUvals[0]=CPUvals[3]/nLines;
         CPUnAvg = getNUnderAvg(CPUvals[0], type);
-        graphCPU = g.create();
     }
     }
     
